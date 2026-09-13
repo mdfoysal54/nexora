@@ -1,0 +1,11 @@
+
+{% extends "base.html" %}
+{% block title %}Server error{% endblock %}
+{% block content %}
+<div class="empty-state container-narrow" style="margin:4rem auto">
+  <div class="big">&#128295;</div>
+  <h1>500 — something went wrong</h1>
+  <p>The server hit an unexpected error. The team has been notified — please try again shortly.</p>
+  <a class="btn btn-primary" href="{% url 'home' %}">Go back home</a>
+</div>
+{% endblock %}

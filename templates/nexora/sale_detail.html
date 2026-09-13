@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ sale.number }}{% endblock %}
+{% block crumb %}{{ sale.number }}{% endblock %}
+{% block content %}
+
+<div class="page-head">
+  <div><h1>{{ sale.number }}</h1><p class="lede">{{ sale.sold_on }} · {{ sale.get_channel_display }} · {{ sale.customer|default:"Walk-in" }}</p></div>
+  <span class="badge badge-brand">{{ sale.get_status_display }}</span>
+</div>
+<div class="grid grid-2">
+  <div class="card">
+    <div class="table-wrap"><table class="tbl">
+      <thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Price</th><th class="num">Line</th></tr></thead>
+      <tbody>{% for l in lines %}
+        <tr><td>{{ l.variant.product.name }} <span class="muted small">{{ l.variant.sku }}</span></td>
+            <td class="num">{{ l.quantity }}</td><td class="num">৳ {{ l.unit_price }}</td>
+            <td class="num">৳ {{ l.line_total }}</td></tr>
+      {% endfor %}</tbody></table></div>
+    <p>Subtotal ৳ {{ sale.subtotal }} · Discount ৳ {{ sale.discount }} · VAT ৳ {{ sale.vat_amount }}</p>
+    <h2>Total ৳ {{ sale.total }}</h2>
+    <p>Paid ৳ {{ sale.paid_total }} · Due ৳ {{ sale.balance }}</p>
+  </div>
+  <div class="card">
+    <h3>Payments</h3>
+    {% for p in payments %}<div class="cart-row"><span>{{ p.get_method_display }}</span><strong>৳ {{ p.amount }}</strong></div>{% endfor %}
+    <h3 class="mt-2">Return</h3>
+    <form method="post" action="{% url 'sale_return' sale.number %}">{% csrf_token %}
+      <select name="variant" class="form-control">{% for l in lines %}<option value="{{ l.variant_id }}">{{ l.variant }}</option>{% endfor %}</select>
+      <input class="form-control mt-1" name="qty" value="1">
+      <input class="form-control mt-1" name="reason" placeholder="Reason">
+      <button class="btn btn-secondary mt-1" type="submit">Return</button>
+    </form>
+    <h3 class="mt-2">Replace</h3>
+    <form method="post" action="{% url 'sale_replace' sale.number %}">{% csrf_token %}
+      <select name="out" class="form-control">{% for l in lines %}<option value="{{ l.variant_id }}">Out {{ l.variant }}</option>{% endfor %}</select>
+      <input class="form-control mt-1" name="into" placeholder="Incoming variant id">
+      <input class="form-control mt-1" name="qty" value="1">
+      <button class="btn btn-secondary mt-1" type="submit">Replace</button>
+    </form>
+    {% if sale.customer %}<p><a class="btn btn-ghost" href="{% url 'kisti_create' sale.number %}">Open কিস্তি plan</a></p>{% endif %}
+  </div>
+</div>
+
+{% endblock %}

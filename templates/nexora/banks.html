@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Bank accounts{% endblock %}
+{% block crumb %}Bank accounts{% endblock %}
+{% block content %}
+<div class="grid grid-2"><div class="card"><form method="post">{% csrf_token %}{% for field in form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}<button class="btn btn-primary" type="submit">Save</button></form></div>
+    <div class="card">{% for r in rows %}<div class="cart-row"><span>{{ r.name }} · {{ r.bank }} {{ r.number }}</span><strong>৳ {{ r.balance }}</strong></div>{% endfor %}</div></div>
+{% endblock %}

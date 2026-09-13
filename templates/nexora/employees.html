@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Employees{% endblock %}
+{% block crumb %}Employees{% endblock %}
+{% block content %}
+<div class="grid grid-2"><div class="card"><form method="post">{% csrf_token %}{% for field in form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}<button class="btn btn-primary" type="submit">Save employee</button></form></div>
+    <div class="card">{% for r in rows %}<div class="cart-row"><span>{{ r.code }} {{ r.user }} · {{ r.designation }}</span><strong>৳ {{ r.basic_salary }}</strong></div>{% endfor %}</div></div>
+{% endblock %}

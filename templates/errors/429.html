@@ -1,0 +1,12 @@
+
+{% extends "base.html" %}
+{% block title %}Too many attempts{% endblock %}
+{% block content %}
+<div class="empty-state container-narrow" style="margin:4rem auto">
+  <div class="big">&#9203;</div>
+  <h1>429 — too many attempts</h1>
+  <p>Too many failed login attempts. Please wait <strong>{{ window_seconds }} seconds</strong>
+     before trying again.</p>
+  <a class="btn btn-primary" href="{% url 'login' %}">Try again</a>
+</div>
+{% endblock %}

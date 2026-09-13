@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Assets{% endblock %}
+{% block crumb %}Assets{% endblock %}
+{% block content %}
+<div class="grid grid-2"><div class="card"><form method="post">{% csrf_token %}{% for field in form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}<button class="btn btn-primary" type="submit">Add asset</button></form></div>
+    <div class="card">{% for r in rows %}<div class="cart-row"><span>{{ r.name }} · {{ r.category }}</span><strong>৳ {{ r.cost }}</strong></div>{% endfor %}</div></div>
+{% endblock %}

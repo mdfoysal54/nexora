@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block crumb %}{{ product.name }}{% endblock %}
+{% block content %}
+
+<div class="page-head"><div><h1>{{ product.name }}</h1><p class="lede">{{ product.sku }} · {{ product.barcode }} · on hand {{ on_hand }}</p></div>
+  <a class="btn" href="{% url 'product_edit' product.pk %}">Edit</a></div>
+<div class="grid grid-2">
+  <div class="card">
+    <p>Category {{ product.category }} {% if product.subcategory %}/ {{ product.subcategory }}{% endif %}</p>
+    <p>Brand {{ product.brand }} · Unit {{ product.unit }} · VAT {{ product.vat_rate }}%</p>
+    <p>Cost ৳ {{ product.cost }} · Retail ৳ {{ product.price }} · Wholesale ৳ {{ product.wholesale_price }}</p>
+    <p>Mode {{ product.get_stock_mode_display }} · Warranty {{ product.warranty_months }} months</p>
+    <h3>Balances</h3>
+    {% for b in balances %}<div class="cart-row"><span>{{ b.station }} / {{ b.variant.name }}</span><strong>{{ b.qty }}</strong></div>{% endfor %}
+  </div>
+  <div class="card"><h3>Add variant</h3>
+    <form method="post">{% csrf_token %}<input type="hidden" name="intent" value="variant">
+      {% for field in variant_form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+      <button class="btn btn-primary" type="submit">Save variant</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

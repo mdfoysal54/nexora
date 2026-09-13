@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ order.number }}{% endblock %}
+{% block crumb %}{{ order.number }}{% endblock %}
+{% block content %}
+<div class="card"><h1>{{ order.number }}</h1>
+    <p>{{ order.customer }} · {{ order.phone }} · {{ order.address }}</p>
+    <p>Status <span class="badge">{{ order.get_status_display }}</span></p>
+    <form method="post" action="{% url 'order_advance' order.number %}">{% csrf_token %}<button class="btn btn-primary">Advance pipeline</button></form>
+    {% if order.sale %}<p>Linked sale <a href="{{ order.sale.get_absolute_url }}">{{ order.sale.number }}</a></p>{% endif %}</div>
+{% endblock %}

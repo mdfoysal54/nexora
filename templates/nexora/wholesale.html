@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Wholesale{% endblock %}
+{% block crumb %}Wholesale{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Wholesale price list</h1></div>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>Product</th><th class="num">Retail</th><th class="num">Wholesale</th><th>Tiers</th></tr></thead>
+    <tbody>{% for p in products %}<tr><td>{{ p.name }}</td><td class="num">৳ {{ p.price }}</td><td class="num">৳ {{ p.wholesale_price }}</td>
+      <td>{% for t in p.wholesale_tiers.all %}≥{{ t.min_qty }} → ৳ {{ t.price }}{% if not forloop.last %} · {% endif %}{% endfor %}</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

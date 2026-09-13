@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block crumb %}Configuration{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Configuration</h1>
+  <a class="btn btn-primary" href="{% url 'settings_company' %}">Company</a>
+  <a class="btn" href="{% url 'profile' %}">Language &amp; colour</a>
+  <a class="btn" href="{% url 'backup' %}">One-click backup</a>
+</div>
+
+<div class="grid grid-2">
+  <div class="card"><h3>Shops</h3>{% for s in shops %}<div class="cart-row"><span>{{ s.name }} ({{ s.code }})</span></div>{% endfor %}
+    <form method="post" action="{% url 'settings_company' %}">{% csrf_token %}<input type="hidden" name="intent" value="shop">
+    {% for field in shop_form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+    <button class="btn btn-primary" type="submit">Add shop</button></form></div>
+  <div class="card"><h3>Stations</h3>{% for s in stations %}<div class="cart-row"><span>{{ s }} · {{ s.get_kind_display }}</span></div>{% endfor %}
+    <form method="post" action="{% url 'settings_company' %}">{% csrf_token %}<input type="hidden" name="intent" value="station">
+    {% for field in station_form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+    <button class="btn btn-primary" type="submit">Add station</button></form></div>
+</div>
+
+<div class="card">
+  <h2>Module map</h2>
+  <p class="muted">Every desk from the retail spec, wired to a live screen.</p>
+  <div class="grid grid-3">
+    <div>
+      <h3>Stock</h3>
+      <p><a href="{% url 'stock_on_hand' %}">On hand</a> · <a href="{% url 'stock_category' %}">Category</a> · <a href="{% url 'stock_subcategory' %}">Sub-category</a><br>
+      <a href="{% url 'stock_brand' %}">Brand</a> · <a href="{% url 'stock_consign' %}">After-sell supplier</a><br>
+      <a href="{% url 'stock_in' %}">Stock in</a> · <a href="{% url 'stock_in_report' %}">In report</a> · <a href="{% url 'stock_in_category' %}">In by category</a><br>
+      <a href="{% url 'stock_out' %}">Stock out</a> · <a href="{% url 'stock_out_report' %}">Out report</a> · <a href="{% url 'stock_transfer' %}">Transfer</a></p>
+    </div>
+    <div>
+      <h3>Reports</h3>
+      <p><a href="{% url 'report_pl' %}">P&amp;L</a> · <a href="{% url 'report_sell' %}">Sell</a> · <a href="{% url 'report_vat' %}">VAT</a> · <a href="{% url 'report_vat_year' %}">Yearly VAT</a><br>
+      <a href="{% url 'report_daily' %}">Daily sell</a> · <a href="{% url 'report_daily_auto' %}">Auto daily</a><br>
+      <a href="{% url 'report_category' %}">Category sell</a> · <a href="{% url 'report_brand' %}">Brand</a> · <a href="{% url 'report_product' %}">Product</a><br>
+      <a href="{% url 'report_minstock' %}">Min stock</a> · <a href="{% url 'report_ledger' %}">Customer ledger</a> · <a href="{% url 'report_userlog' %}">User log</a></p>
+    </div>
+    <div>
+      <h3>Purchase</h3>
+      <p><a href="{% url 'purchase_create' %}">Purchase product</a> · <a href="{% url 'purchase_list' %}">Requests</a><br>
+      <a href="{% url 'purchase_report' %}">Purchase report</a> · <a href="{% url 'purchase_daily' %}">Daily purchase</a><br>
+      <a href="{% url 'supplier_return_report' %}">Supplier return report</a></p>
+    </div>
+    <div>
+      <h3>Sales</h3>
+      <p><a href="{% url 'pos' %}">One-click POS (VAT, due, discount, bKash)</a><br>
+      <a href="{% url 'wholesale' %}">Wholesale</a> · <a href="{% url 'commission' %}">Sales commission</a><br>
+      <a href="{% url 'sale_return_report' %}">Sell return</a> · <a href="{% url 'sale_replace_report' %}">Sell replace</a></p>
+    </div>
+    <div>
+      <h3>Accounts</h3>
+      <p><a href="{% url 'accounts_receive' %}">Receive</a> · <a href="{% url 'receivable_report' %}">Receivable</a> · <a href="{% url 'received_report' %}">Received</a><br>
+      <a href="{% url 'accounts_pay' %}">Payment</a> · <a href="{% url 'paid_report' %}">Paid</a><br>
+      <a href="{% url 'accounts_transfer' %}">Cash transfer</a> · <a href="{% url 'accounts_bank_cash' %}">Bank → cash</a><br>
+      <a href="{% url 'accounts_expense' %}">Office / fixed expense</a> · <a href="{% url 'accounts_salary' %}">Salary</a><br>
+      <a href="{% url 'accounts_invest' %}">Investment</a> · <a href="{% url 'invest_withdraw' %}">Invest withdraw</a></p>
+    </div>
+    <div>
+      <h3>Configuration</h3>
+      <p><a href="{% url 'investor_list' %}">Investors</a> · <a href="{% url 'employee_list' %}">Employees</a> · <a href="{% url 'settings_hub' %}">Stations</a><br>
+      <a href="{% url 'product_list' %}">Products</a> · <a href="{% url 'package_list' %}">Packages</a> · <a href="{% url 'product_inactive' %}">Inactive</a><br>
+      <a href="{% url 'category_list' %}">Category</a> · <a href="{% url 'subcategory_list' %}">Sub-category</a> · <a href="{% url 'brand_list' %}">Brand</a> · <a href="{% url 'unit_list' %}">Unit</a><br>
+      <a href="{% url 'product_with_vat' %}">List with VAT</a> · <a href="{% url 'product_without_vat' %}">Without VAT</a> · <a href="{% url 'vat_update' %}">VAT update</a><br>
+      <a href="{% url 'barcode_sheet' %}">Barcode</a> · <a href="{% url 'barcode_a4' %}">A4 barcode</a><br>
+      <a href="{% url 'customer_list' %}">Customers</a> · <a href="{% url 'customer_type_list' %}">Customer type</a> · <a href="{% url 'points' %}">Points</a><br>
+      <a href="{% url 'supplier_list' %}">Suppliers</a> · <a href="{% url 'bank_list' %}">Bank accounts</a> · <a href="{% url 'bank_checks' %}">Bank cheques</a></p>
+    </div>
+    <div>
+      <h3>Lifecycle</h3>
+      <p><a href="{% url 'kisti_list' %}">কিস্তি / installment</a> · <a href="{% url 'warranty_list' %}">Warranty</a><br>
+      <a href="{% url 'replacement_list' %}">Replacement register</a> · <a href="{% url 'order_list' %}">Online orders</a><br>
+      <a href="{% url 'sms_list' %}">SMS</a> · <a href="{% url 'asset_list' %}">Assets</a> · <a href="{% url 'backup' %}">Backup</a><br>
+      <a href="{% url 'profile' %}">Language / colour / profile</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

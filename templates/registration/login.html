@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="card">
+    <div class="auth-heading">
+      <div class="brand"><span class="brand-badge">{{ APP_NAME|slice:":1" }}</span><span>{{ APP_NAME }}</span></div>
+      <h1 class="mt-2 mb-0">Welcome back</h1>
+      <p class="muted mb-0">Log in to continue</p>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <div class="form-group">
+        <label class="form-label" for="id_username">Username</label>
+        <input class="form-control" type="text" name="username" id="id_username"
+               autocomplete="username" required autofocus value="{{ form.username.value|default_if_none:'' }}">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="id_password">Password</label>
+        <input class="form-control" type="password" name="password" id="id_password"
+               autocomplete="current-password" required>
+        {% if form.password.errors %}
+          <ul class="field-errors">{% for e in form.password.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+        {% endif %}
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Log in</button>
+    </form>
+
+    <p class="small muted text-center mb-0 mt-2">
+      New here? <a href="{% url 'register' %}">Create an account</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

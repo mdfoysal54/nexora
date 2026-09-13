@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Backup{% endblock %}
+{% block crumb %}Backup{% endblock %}
+{% block content %}
+<div class="card"><h1>One-click backup</h1>
+    <p class="lede">Download every Nexora table as JSON. Restore by loading it into staging — secrets never leave this machine.</p>
+    <form method="post">{% csrf_token %}<button class="btn btn-primary btn-lg" type="submit">Download backup</button></form>
+    <h3 class="mt-2">History</h3>{% for r in rows %}<div class="cart-row"><span>{{ r.created }} {{ r.filename }}</span><span>{{ r.rows }} rows · {{ r.bytes }} bytes</span></div>{% empty %}<p class="muted">No backups taken yet.</p>{% endfor %}</div>
+{% endblock %}

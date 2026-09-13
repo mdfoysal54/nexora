@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Stock movement report{% endblock %}
+{% block crumb %}Stock movement report{% endblock %}
+{% block content %}
+
+<div class="page-head"><h1>Stock movement report</h1></div>
+<div class="table-wrap"><table class="tbl"><thead><tr><th>No.</th><th>Date</th><th>Kind</th><th>SKU</th><th>Station</th><th class="num">Qty</th></tr></thead>
+<tbody>{% for m in moves %}<tr><td class="mono">{{ m.number }}</td><td>{{ m.moved_on }}</td><td>{{ m.get_kind_display }}</td><td>{{ m.variant.sku }}</td><td>{{ m.station }}</td><td class="num">{{ m.qty }}</td></tr>{% empty %}<tr><td colspan="6">No moves.</td></tr>{% endfor %}</tbody></table></div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: nexora
+    env: python
+    buildCommand: pip install -r requirements.txt gunicorn && python manage.py collectstatic --noinput
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
+      - key: DJANGO_SECURE_SSL_REDIRECT
+        value: "True"
+      - key: DJANGO_COOKIE_SECURE
+        value: "True"
+      - key: DJANGO_HSTS
+        value: "True"
+      - key: DJANGO_BEHIND_PROXY
+        value: "True"
+      - key: DJANGO_TIME_ZONE
+        value: Asia/Dhaka

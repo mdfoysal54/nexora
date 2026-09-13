@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Profile &amp; appearance</h1></div>
+<div class="grid grid-2">
+  <div class="card"><h3>Account</h3>
+    <form method="post">{% csrf_token %}
+      {% for field in uform %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+      {% for field in pform %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+      <p class="form-hint">Theme: void (default dark), aurora, ember, light. Language: en or bn.</p>
+      <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+    <p class="mt-2"><a href="{% url 'password_change' %}">Change password</a></p>
+  </div>
+  <div class="card"><h3>Role</h3><p>{{ profile.get_role_display }}</p>
+    <p class="muted">Shop {{ profile.shop }} · Station {{ profile.station }}</p></div>
+</div>
+{% endblock %}

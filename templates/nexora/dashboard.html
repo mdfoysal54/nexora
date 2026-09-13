@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Command{% endblock %}
+{% block crumb %}Command centre · {{ today }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Good selling, {{ user.first_name|default:user.username }}.</h1>
+       <p class="lede">Live books for {{ company.name|default:"your shop" }}.</p></div>
+  <a class="btn btn-primary" href="{% url 'pos' %}">New sale</a>
+</div>
+<div class="grid grid-4">
+  <div class="card stat"><div class="stat-label">Today</div><div class="stat-value">৳ {{ today_total }}</div><div class="muted small">{{ today_count }} tickets</div></div>
+  <div class="card stat"><div class="stat-label">This month</div><div class="stat-value">৳ {{ month_total }}</div></div>
+  <div class="card stat"><div class="stat-label">Receivable</div><div class="stat-value">৳ {{ due_total }}</div></div>
+  <div class="card stat"><div class="stat-label">Net (MTD)</div><div class="stat-value">৳ {{ pl.net }}</div><div class="muted small">gross ৳ {{ pl.gross }}</div></div>
+</div>
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Recent tickets</h3>
+    <div class="table-wrap"><table class="tbl">
+      <thead><tr><th>No.</th><th>Customer</th><th class="num">Total</th><th></th></tr></thead>
+      <tbody>{% for s in recent %}
+        <tr><td class="mono"><a href="{{ s.get_absolute_url }}">{{ s.number }}</a></td>
+            <td>{{ s.customer|default:"Walk-in" }}</td>
+            <td class="num">৳ {{ s.total }}</td>
+            <td><span class="badge badge-{{ s.status }}">{{ s.get_status_display }}</span></td></tr>
+      {% empty %}<tr><td colspan="4">No sales yet — open the POS.</td></tr>{% endfor %}
+      </tbody></table></div>
+  </div>
+  <div class="card">
+    <h3>Min-stock watch</h3>
+    <ul class="list-plain">{% for b in low %}
+      <li>{{ b.variant.product.name }} · {{ b.station.code }} <strong>{{ b.qty }}</strong></li>
+    {% empty %}<li class="muted">All products above their floor.</li>{% endfor %}</ul>
+    <p class="small muted">কিস্তি overdue: {{ kisti_overdue }}</p>
+  </div>
+</div>
+{% endblock %}

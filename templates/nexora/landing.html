@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Retail OS{% endblock %}
+{% block body_class %} landing{% endblock %}
+{% block content %}
+<div class="landing">
+  <nav class="landing-nav">
+    <a class="brand" href="/"><span class="brand-badge">N</span><span>Nexora</span></a>
+    <div class="nav-right">
+      <a class="btn btn-ghost" href="{% url 'login' %}">Log in</a>
+      <a class="btn btn-primary" href="{% url 'register' %}">Start a store</a>
+    </div>
+  </nav>
+  <div class="hero-block">
+    <div class="kicker">Retail operating system</div>
+    <h1>Stock, POS, accounts and কিস্তি — in one <em>command centre</em>.</h1>
+    <p class="lede">Nexora is a complete retail ERP: category-wise stock, one-click selling with VAT, due and bKash, purchase, warranty, wholesale, commissions, SMS and one-click backup. Built for Bangladesh shops that want a world-class desk, not a spreadsheet.</p>
+    <p><a class="btn btn-primary btn-lg" href="{% url 'login' %}">Open the desk</a>
+       <a class="btn btn-secondary btn-lg" href="#modules">See modules</a></p>
+  </div>
+  <div id="modules" class="feature-grid">
+    <div class="card"><div class="kicker">01</div><h3>POS</h3><p class="muted">One-click selling with VAT, due, discount and bKash trx ids.</p></div>
+    <div class="card"><div class="kicker">02</div><h3>Stock</h3><p class="muted">On-hand, in, out, transfer, category / brand / after-sell supplier views.</p></div>
+    <div class="card"><div class="kicker">03</div><h3>Purchase</h3><p class="muted">Requests, receive, supplier returns and daily purchase reports.</p></div>
+    <div class="card"><div class="kicker">04</div><h3>Accounts</h3><p class="muted">Receive, pay, cash transfer, bank→cash, expenses, salary, investment.</p></div>
+    <div class="card"><div class="kicker">05</div><h3>কিস্তি</h3><p class="muted">Installment plans with interest, down payment and overdue tracking.</p></div>
+    <div class="card"><div class="kicker">06</div><h3>Warranty</h3><p class="muted">Serialised cover from the sale date, claims and replacements.</p></div>
+    <div class="card"><div class="kicker">07</div><h3>Online + SMS</h3><p class="muted">Order pipeline and an SMS log ready for a real gateway.</p></div>
+    <div class="card"><div class="kicker">08</div><h3>Backup</h3><p class="muted">One-click JSON export of every table. No hesitation deploying.</p></div>
+  </div>
+</div>
+{% endblock %}

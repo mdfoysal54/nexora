@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}On-hand stock{% endblock %}
+{% block crumb %}On-hand stock{% endblock %}
+{% block content %}
+
+<div class="page-head"><h1>On-hand stock</h1>
+  <div class="pill-row">
+    <a class="btn btn-sm" href="?axis=">All</a>
+    <a class="btn btn-sm" href="?axis=category">Category</a>
+    <a class="btn btn-sm" href="?axis=sub">Sub-category</a>
+    <a class="btn btn-sm" href="?axis=brand">Brand</a>
+    <a class="btn btn-sm" href="?axis=supplier">After-sell supplier</a>
+    <a class="btn btn-sm btn-primary" href="{% url 'stock_in' %}">Stock in</a>
+  </div>
+</div>
+{% if grouped %}
+  {% for key, items in grouped.items %}
+    <h3>{{ key }}</h3>
+    <div class="table-wrap mb-2"><table class="tbl"><thead><tr><th>SKU</th><th>Product</th><th>Station</th><th class="num">Qty</th></tr></thead>
+    <tbody>{% for b in items %}<tr><td class="mono">{{ b.variant.sku }}</td><td>{{ b.variant.product.name }}</td><td>{{ b.station }}</td><td class="num">{{ b.qty }}</td></tr>{% endfor %}</tbody></table></div>
+  {% endfor %}
+{% else %}
+<div class="table-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Product</th><th>Category</th><th>Brand</th><th>Station</th><th class="num">Qty</th><th class="num">Min</th></tr></thead>
+<tbody>{% for b in rows %}
+<tr><td class="mono">{{ b.variant.sku }}</td><td>{{ b.variant.product.name }}</td>
+    <td>{{ b.variant.product.category }}</td><td>{{ b.variant.product.brand }}</td>
+    <td>{{ b.station }}</td><td class="num">{{ b.qty }}</td><td class="num">{{ b.variant.product.min_stock }}</td></tr>
+{% empty %}<tr><td colspan="7">No balances — receive a purchase or stock-in.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endif %}
+
+{% endblock %}

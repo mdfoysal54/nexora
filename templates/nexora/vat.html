@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}VAT update{% endblock %}
+{% block crumb %}VAT update{% endblock %}
+{% block content %}
+
+<div class="page-head"><h1>VAT update</h1></div>
+<div class="card"><form method="post">{% csrf_token %}
+  <label class="form-label">Set every product VAT rate to</label>
+  <input class="form-control" name="vat_rate" value="5.00">
+  <button class="btn btn-primary mt-1" type="submit">Apply</button>
+</form>
+<p class="mt-2">With VAT: {{ with_vat.count }} · Without: {{ without.count }}</p></div>
+
+{% endblock %}

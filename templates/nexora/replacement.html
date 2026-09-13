@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Replacement{% endblock %}
+{% block crumb %}Replacement{% endblock %}
+{% block content %}
+<div class="grid grid-2"><div class="card"><form method="post">{% csrf_token %}
+      <select name="customer" class="form-control"><option value="">Walk-in</option>{% for c in customers %}<option value="{{ c.pk }}">{{ c }}</option>{% endfor %}</select>
+      <label class="form-label mt-1">Incoming (customer brings)</label>
+      <select name="out" class="form-control">{% for v in variants %}<option value="{{ v.pk }}">{{ v }}</option>{% endfor %}</select>
+      <label class="form-label mt-1">Outgoing (we give)</label>
+      <select name="into" class="form-control">{% for v in variants %}<option value="{{ v.pk }}">{{ v }}</option>{% endfor %}</select>
+      <input class="form-control mt-1" name="qty" value="1">
+      <input class="form-control mt-1" name="reason" placeholder="Reason">
+      <button class="btn btn-primary mt-1" type="submit">Register</button></form></div>
+    <div class="card">{% for r in rows %}<div class="cart-row"><span>{{ r.number }} {{ r.out_variant }} → {{ r.in_variant }}</span></div>{% endfor %}</div></div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}SMS{% endblock %}
+{% block crumb %}SMS{% endblock %}
+{% block content %}
+<div class="grid grid-2"><div class="card"><form method="post">{% csrf_token %}{% for field in form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}<button class="btn btn-primary" type="submit">Send / log</button></form>
+      <p class="small muted">No third-party key is stored. Hook SSL Wireless / Twilio here later.</p></div>
+    <div class="card">{% for r in rows %}<div class="cart-row"><span>{{ r.to }} · {{ r.get_status_display }}</span><span class="small">{{ r.body }}</span></div>{% endfor %}</div></div>
+{% endblock %}

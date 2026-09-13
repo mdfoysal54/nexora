@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ plan.number }}{% endblock %}
+{% block crumb %}{{ plan.number }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{{ plan.number }}</h1><p class="lede">{{ plan.customer }} · {{ plan.months }} months · interest {{ plan.interest_rate }}%</p></div></div>
+    <div class="card"><p>Principal ৳ {{ plan.principal }} · Down ৳ {{ plan.down_payment }} · Payable ৳ {{ plan.payable }} · Outstanding ৳ {{ plan.outstanding }}</p>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>#</th><th>Due</th><th class="num">Amount</th><th class="num">Paid</th><th></th></tr></thead>
+    <tbody>{% for d in dues %}<tr><td>{{ d.sequence }}</td><td>{{ d.due_on }}</td><td class="num">৳ {{ d.amount }}</td><td class="num">৳ {{ d.paid_amount }}</td>
+      <td>{% if not d.is_paid %}<form method="post" action="{% url 'kisti_pay' plan.number d.pk %}">{% csrf_token %}
+        <input type="hidden" name="amount" value="{{ d.amount }}"><button class="btn btn-sm btn-primary">Collect</button></form>{% else %}<span class="badge badge-ok">Paid</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}

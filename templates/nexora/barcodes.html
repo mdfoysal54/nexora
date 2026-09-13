@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Barcodes{% endblock %}
+{% block crumb %}Barcodes{% endblock %}
+{% block content %}
+
+<div class="page-head no-print"><h1>{% if a4 %}A4{% else %}General{% endif %} barcode sheet</h1>
+  <a class="btn" href="{% url 'barcode_a4' %}">A4 layout</a>
+  <button class="btn btn-primary" onclick="window.print()">Print</button></div>
+<div class="sheet{% if a4 %} a4{% endif %}">{% for p in products %}
+  <div class="cell">
+    <div class="barcode">{% for i in "xxxxxxxxxxxx" %}<i class="{% cycle 'w' '' 'n' '' 'w' %}"> </i>{% endfor %}</div>
+    <div class="mono">{{ p.barcode }}</div>
+    <div>{{ p.name }}</div>
+    <div>৳ {{ p.price }}</div>
+  </div>
+{% endfor %}</div>
+
+{% endblock %}

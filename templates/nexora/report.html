@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block crumb %}{{ title }}{% endblock %}
+{% block content %}
+
+<div class="page-head"><h1>{{ title }}</h1>
+  <form class="pill-row">{% if date_from %}<input class="form-control" type="date" name="from" value="{{ date_from }}">
+  <input class="form-control" type="date" name="to" value="{{ date_to }}"><button class="btn">Filter</button>{% endif %}</form>
+</div>
+{% if kind == "pl" %}
+<div class="grid grid-3">
+  <div class="card stat"><div class="stat-label">Revenue</div><div class="stat-value">৳ {{ pl.revenue }}</div></div>
+  <div class="card stat"><div class="stat-label">COGS</div><div class="stat-value">৳ {{ pl.cogs }}</div></div>
+  <div class="card stat"><div class="stat-label">Gross</div><div class="stat-value">৳ {{ pl.gross }}</div></div>
+  <div class="card stat"><div class="stat-label">Opex</div><div class="stat-value">৳ {{ pl.opex }}</div></div>
+  <div class="card stat"><div class="stat-label">VAT collected</div><div class="stat-value">৳ {{ pl.vat }}</div></div>
+  <div class="card stat"><div class="stat-label">Net</div><div class="stat-value">৳ {{ pl.net }}</div></div>
+</div>
+{% elif kind == "sell" or kind == "vat" %}
+<div class="card"><p>Total {% if kind == "vat" %}VAT{% endif %} ৳ {{ total }}</p>
+<div class="table-wrap"><table class="tbl"><thead><tr><th>No.</th><th>Date</th><th>Customer</th><th class="num">Total</th><th class="num">VAT</th></tr></thead>
+<tbody>{% for s in sales %}<tr><td><a href="{{ s.get_absolute_url }}">{{ s.number }}</a></td><td>{{ s.sold_on }}</td><td>{{ s.customer }}</td><td class="num">৳ {{ s.total }}</td><td class="num">৳ {{ s.vat_amount }}</td></tr>{% endfor %}</tbody></table></div></div>
+{% elif kind == "axis" %}
+<div class="table-wrap"><table class="tbl"><thead><tr><th>Bucket</th><th class="num">Qty</th><th class="num">Amount</th></tr></thead>
+<tbody>{% for r in rows %}<tr><td>{{ r.key }}</td><td class="num">{{ r.qty }}</td><td class="num">৳ {{ r.amount }}</td></tr>{% endfor %}</tbody></table></div>
+{% elif kind == "min" %}
+<div class="table-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Station</th><th class="num">Qty</th><th class="num">Min</th></tr></thead>
+<tbody>{% for b in rows %}<tr><td>{{ b.variant.sku }} {{ b.variant.product.name }}</td><td>{{ b.station }}</td><td class="num">{{ b.qty }}</td><td class="num">{{ b.variant.product.min_stock }}</td></tr>{% empty %}<tr><td colspan="4">Nothing below the floor.</td></tr>{% endfor %}</tbody></table></div>
+{% elif kind == "ledger" %}
+<div class="card"><a class="btn btn-sm" href="?party=customer">Customers</a> <a class="btn btn-sm" href="?party=supplier">Suppliers</a>
+<ul>{% for p in parties %}<li>{{ p }} {% if p.due %}due ৳ {{ p.due }}{% endif %}</li>{% endfor %}</ul></div>
+{% elif kind == "log" %}
+<div class="table-wrap"><table class="tbl"><thead><tr><th>When</th><th>User</th><th>Verb</th><th>Detail</th></tr></thead>
+<tbody>{% for l in logs %}<tr><td>{{ l.at }}</td><td>{{ l.user }}</td><td>{{ l.verb }}</td><td>{{ l.detail }}</td></tr>{% endfor %}</tbody></table></div>
+{% elif kind == "exchange" %}
+<div class="table-wrap"><table class="tbl"><thead><tr><th>No.</th><th>Out</th><th>In</th><th>Customer</th></tr></thead>
+<tbody>{% for r in rows %}<tr><td>{{ r.number }}</td><td>{{ r.out_variant }}</td><td>{{ r.in_variant }}</td><td>{{ r.customer }}</td></tr>{% endfor %}</tbody></table></div>
+{% endif %}
+
+{% endblock %}

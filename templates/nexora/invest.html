@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Investment{% endblock %}
+{% block crumb %}Investment{% endblock %}
+{% block content %}
+<div class="card"><form method="post">{% csrf_token %}
+      <select name="investor" class="form-control">{% for i in investors %}<option value="{{ i.pk }}">{{ i }}</option>{% endfor %}</select>
+      <select name="kind" class="form-control mt-1"><option value="in">Investment in</option><option value="out">Withdraw</option></select>
+      <input class="form-control mt-1" name="amount" placeholder="Amount">
+      <button class="btn btn-primary mt-1" type="submit">Record</button></form>
+      {% for r in rows %}<div class="cart-row"><span>{{ r.investor }} {{ r.get_kind_display }}</span><strong>৳ {{ r.amount }}</strong></div>{% endfor %}</div>
+{% endblock %}

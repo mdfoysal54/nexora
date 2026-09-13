@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block crumb %}Products{% endblock %}
+{% block content %}
+
+<div class="page-head"><h1>{% if inactive %}Inactivated{% else %}Products{% endif %}</h1>
+  <div class="pill-row">
+    <a class="btn btn-primary" href="{% url 'product_create' %}">Add product</a>
+    <a class="btn btn-sm" href="{% url 'product_inactive' %}">Inactive</a>
+    <a class="btn btn-sm" href="{% url 'vat_update' %}">VAT update</a>
+    <a class="btn btn-sm" href="{% url 'barcode_sheet' %}">Barcodes</a>
+    <a class="btn btn-sm" href="{% url 'category_list' %}">Categories</a>
+    <a class="btn btn-sm" href="{% url 'brand_list' %}">Brands</a>
+  </div>
+</div>
+<form class="mb-2"><input class="form-control" name="q" value="{{ q }}" placeholder="Search SKU, barcode, name"></form>
+<div class="table-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Name</th><th>Category</th><th>Brand</th><th class="num">Cost</th><th class="num">Price</th><th>VAT</th></tr></thead>
+<tbody>{% for p in products %}
+<tr><td class="mono"><a href="{{ p.get_absolute_url }}">{{ p.sku }}</a></td><td>{{ p.name }}</td><td>{{ p.category }}</td><td>{{ p.brand }}</td>
+    <td class="num">৳ {{ p.cost }}</td><td class="num">৳ {{ p.price }}</td><td>{{ p.vat_rate }}%</td></tr>
+{% empty %}<tr><td colspan="7">No products.</td></tr>{% endfor %}</tbody></table></div>
+
+{% endblock %}

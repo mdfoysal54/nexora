@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ purchase.number }}{% endblock %}
+{% block crumb %}{{ purchase.number }}{% endblock %}
+{% block content %}
+
+<div class="page-head"><div><h1>{{ purchase.number }}</h1><p class="lede">{{ purchase.supplier }} · {{ purchase.get_status_display }}</p></div>
+  {% if purchase.status != "received" %}
+  <form method="post" action="{% url 'purchase_receive' purchase.number %}">{% csrf_token %}<button class="btn btn-primary">Receive all</button></form>
+  {% endif %}
+</div>
+<div class="card"><div class="table-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Qty</th><th>Received</th><th class="num">Cost</th></tr></thead>
+<tbody>{% for l in lines %}<tr><td>{{ l.variant }}</td><td>{{ l.quantity }}</td><td>{{ l.received }}</td><td class="num">৳ {{ l.unit_cost }}</td></tr>{% endfor %}</tbody></table></div>
+<form method="post" action="{% url 'purchase_return' purchase.number %}" class="mt-2">{% csrf_token %}
+  <select name="variant" class="form-control">{% for l in lines %}<option value="{{ l.variant_id }}">{{ l.variant }}</option>{% endfor %}</select>
+  <input class="form-control mt-1" name="qty" value="1"><input class="form-control mt-1" name="reason" placeholder="Reason">
+  <button class="btn btn-secondary mt-1" type="submit">Supplier return</button>
+</form></div>
+
+{% endblock %}

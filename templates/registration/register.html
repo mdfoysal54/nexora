@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+{% block title %}Create an account{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="card">
+    <div class="auth-heading">
+      <div class="brand"><span class="brand-badge">{{ APP_NAME|slice:":1" }}</span><span>{{ APP_NAME }}</span></div>
+      <h1 class="mt-2 mb-0">Create your account</h1>
+      <p class="muted mb-0">Join {{ APP_NAME }}</p>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post" action="{% url 'register' %}" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <ul class="field-errors">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if field.help_text and not field.errors %}
+          <div class="form-hint">{{ field.help_text|safe }}</div>
+        {% endif %}
+      </div>
+      {% endfor %}
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Create account</button>
+    </form>
+
+    <p class="small muted text-center mb-0 mt-2">
+      Already have an account? <a href="{% url 'login' %}">Log in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

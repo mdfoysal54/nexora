@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Warranty{% endblock %}
+{% block crumb %}Warranty{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Warranty register</h1></div>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>No.</th><th>Product</th><th>From</th><th>Until</th><th></th></tr></thead>
+    <tbody>{% for w in rows %}<tr><td><a href="{{ w.get_absolute_url }}">{{ w.number }}</a></td><td>{{ w.sale_line.variant.product.name }}</td><td>{{ w.starts_on }}</td><td>{{ w.ends_on }}</td><td>{{ w.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

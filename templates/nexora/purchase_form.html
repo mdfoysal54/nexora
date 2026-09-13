@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}New purchase{% endblock %}
+{% block crumb %}New purchase{% endblock %}
+{% block content %}
+
+<div class="page-head"><h1>Purchase request</h1></div>
+<form method="post">{% csrf_token %}
+  <div class="card">{% for field in form %}<div class="form-group"><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}</div>
+  <div class="card"><h3>Lines</h3>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Product</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>{% for v in variants %}
+      <tr><td class="mono">{{ v.sku }}</td><td>{{ v.product.name }}</td>
+          <td><input class="form-control" name="qty_{{ v.pk }}" placeholder="0"></td>
+          <td><input class="form-control" name="cost_{{ v.pk }}" value="{{ v.product.cost }}"></td></tr>
+    {% endfor %}</tbody></table></div>
+    <button class="btn btn-primary mt-2" type="submit">Raise purchase</button>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ customer.name }}{% endblock %}
+{% block crumb %}{{ customer.name }}{% endblock %}
+{% block content %}
+
+<div class="page-head"><div><h1>{{ customer.name }}</h1><p class="lede">{{ customer.code }} · {{ customer.phone }} · points {{ customer.points }} · due ৳ {{ customer.due }}</p></div>
+  <a class="btn" href="{% url 'customer_edit' customer.pk %}">Edit</a></div>
+<div class="card"><h3>Ledger</h3>
+<div class="table-wrap"><table class="tbl"><thead><tr><th>Sale</th><th>Date</th><th class="num">Total</th><th class="num">Due</th></tr></thead>
+<tbody>{% for s in sales %}<tr><td><a href="{{ s.get_absolute_url }}">{{ s.number }}</a></td><td>{{ s.sold_on }}</td><td class="num">৳ {{ s.total }}</td><td class="num">৳ {{ s.balance }}</td></tr>{% endfor %}</tbody></table></div>
+<h3 class="mt-2">Points</h3>
+{% for p in points %}<div class="cart-row"><span>{{ p.reason }} {{ p.reference }}</span><strong>{{ p.delta }}</strong></div>{% endfor %}
+</div>
+
+{% endblock %}

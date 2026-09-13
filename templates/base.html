@@ -1,0 +1,59 @@
+{% load static %}
+<!doctype html>
+<html lang="{{ ui_lang|default:'en' }}" data-theme="{{ ui_theme|default:'void' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ APP_NAME }}{% endblock %} · {{ APP_NAME }}</title>
+<meta name="description" content="{% block meta_description %}{{ APP_TAGLINE }}{% endblock %}">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}app-shell{% endif %}{% block body_class %}{% endblock %}">
+{% if user.is_authenticated %}
+<aside class="rail" aria-label="Modules">
+  <a class="brand" href="{% url 'dashboard' %}">
+    <span class="brand-badge">N</span>
+    <span>Nexora</span>
+  </a>
+  {% for group, items in nav %}
+    <div class="rail-group">{{ group }}</div>
+    {% for name, label in items %}
+      <a class="nav-item{% if request.resolver_match.url_name == name %} active{% endif %}" href="{% url name %}">{{ label }}</a>
+    {% endfor %}
+  {% empty %}
+    <a class="nav-item" href="{% url 'dashboard' %}">Dashboard</a>
+    <a class="nav-item" href="{% url 'pos' %}">POS</a>
+    <a class="nav-item" href="{% url 'stock_on_hand' %}">Stock</a>
+    <a class="nav-item" href="{% url 'product_list' %}">Products</a>
+    <a class="nav-item" href="{% url 'report_pl' %}">P&amp;L</a>
+  {% endfor %}
+</aside>
+{% endif %}
+<div class="{% if user.is_authenticated %}stage{% endif %}">
+  {% if user.is_authenticated %}
+  <header class="topbar">
+    <div class="small muted">{% block crumb %}{{ APP_TAGLINE }}{% endblock %}</div>
+    <div class="nav-right">
+      <a class="btn btn-sm btn-primary" href="{% url 'pos' %}">Open POS</a>
+      <a class="btn btn-sm btn-ghost" href="{% url 'profile' %}">{{ user.username }}</a>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+        <button class="btn btn-sm btn-secondary" type="submit">Log out</button>
+      </form>
+    </div>
+  </header>
+  {% endif %}
+  <main class="{% if user.is_authenticated %}stage-main{% else %}landing-main{% endif %}">
+    {% if messages %}{% for message in messages %}
+      <div class="alert alert-{{ message.tags|default:'info' }}" role="status">{{ message }}</div>
+    {% endfor %}{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  {% if user.is_authenticated %}
+  <footer class="site-footer">© {% now "Y" %} {{ APP_NAME }} — ৳ retail OS for Bangladesh and beyond.</footer>
+  {% endif %}
+</div>
+{% block extra_script %}{% endblock %}
+</body>
+</html>

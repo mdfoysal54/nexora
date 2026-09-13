@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Salary{% endblock %}
+{% block crumb %}Salary{% endblock %}
+{% block content %}
+<div class="card"><form method="post" class="grid grid-2">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Employee</label><select name="employee" class="form-control">{% for e in employees %}<option value="{{ e.pk }}">{{ e }} — ৳ {{ e.basic_salary }}</option>{% endfor %}</select></div>
+      <div class="form-group"><label class="form-label">Period</label><input class="form-control" name="period" value="{{ period }}"></div>
+      <div class="form-group"><label class="form-label">Amount</label><input class="form-control" name="amount"></div>
+      <button class="btn btn-primary" type="submit">Pay salary</button></form>
+      <h3 class="mt-2">History</h3>{% for r in rows %}<div class="cart-row"><span>{{ r.employee }} {{ r.period }}</span><strong>৳ {{ r.amount }}</strong></div>{% endfor %}</div>
+{% endblock %}

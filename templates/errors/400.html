@@ -1,0 +1,11 @@
+
+{% extends "base.html" %}
+{% block title %}Bad request{% endblock %}
+{% block content %}
+<div class="empty-state container-narrow" style="margin:4rem auto">
+  <div class="big">&#128683;</div>
+  <h1>400 — bad request</h1>
+  <p>The request could not be understood — it may have been malformed or blocked for your safety.</p>
+  <a class="btn btn-primary" href="{% url 'home' %}">Go back home</a>
+</div>
+{% endblock %}

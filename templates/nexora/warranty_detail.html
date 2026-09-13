@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ warranty.number }}{% endblock %}
+{% block crumb %}{{ warranty.number }}{% endblock %}
+{% block content %}
+<div class="card"><h1>{{ warranty.number }}</h1>
+    <p>{{ warranty.sale_line.variant.product.name }} · {{ warranty.starts_on }} → {{ warranty.ends_on }} · {{ warranty.get_status_display }}</p>
+    <form method="post" action="{% url 'warranty_claim' warranty.number %}">{% csrf_token %}
+      <input class="form-control" name="note" placeholder="Claim note">
+      <select name="resolution" class="form-control mt-1"><option value="repair">Repair</option><option value="replace">Replace</option><option value="reject">Reject</option></select>
+      <button class="btn btn-primary mt-1" type="submit">Open claim</button></form>
+    <ul>{% for c in warranty.claims.all %}<li>{{ c.created }} {{ c.resolution }} — {{ c.note }}</li>{% endfor %}</ul></div>
+{% endblock %}
